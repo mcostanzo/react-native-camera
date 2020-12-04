@@ -19,6 +19,7 @@
 + (UIImage *) scaleImage:(UIImage*)image toWidth:(NSInteger)width;
 + (void)updatePhotoMetadata:(CMSampleBufferRef)imageSampleBuffer withAdditionalData:(NSDictionary *)additionalData inResponse:(NSMutableDictionary *)response;
 + (UIImage *)invertColors:(UIImage *)image;
++ (NSString *)convertToBase64String:(UIImage *)image imageQuality:(float)imageQuality;
 
 @end
 

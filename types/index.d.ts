@@ -166,6 +166,15 @@ export interface GoogleVisionBarcodesDetectedEvent {
   image?: string;
 }
 
+export interface FacesDetectedEvent {
+  type: string;
+  faces: Face[];
+  /**
+   * Raw image bytes in JPEG format (quality 100) as Base64-encoded string, only provided if `detectedImageInEvent=true`.
+   */
+  image?: string;
+}
+
 export interface RNCameraProps {
   children?: ReactNode | FaCC;
 
@@ -231,7 +240,7 @@ export interface RNCameraProps {
 
   // -- FACE DETECTION PROPS
 
-  onFacesDetected?(response: { faces: Face[] }): void;
+  onFacesDetected?(event: FacesDetectedEvent): void;
   onFaceDetectionError?(response: { isOperational: boolean }): void;
   faceDetectionMode?: keyof FaceDetectionMode;
   faceDetectionLandmarks?: keyof FaceDetectionLandmarks;

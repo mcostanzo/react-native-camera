@@ -136,5 +136,10 @@
     return outputUIImage;
 }
 
++ (NSString *)convertToBase64String:(UIImage *)image imageQuality:(float)imageQuality
+{
+    return [UIImageJPEGRepresentation(image, imageQuality) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+}
+
 @end
 
