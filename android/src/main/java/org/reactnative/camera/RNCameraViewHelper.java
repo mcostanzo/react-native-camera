@@ -258,13 +258,13 @@ public class RNCameraViewHelper {
   }
   // Face detection events
 
-  public static void emitFacesDetectedEvent(final ViewGroup view, final WritableArray data) {
+  public static void emitFacesDetectedEvent(final ViewGroup view, final WritableArray data, final byte[] compressedImage) {
 
     final ReactContext reactContext = (ReactContext) view.getContext();
     reactContext.runOnNativeModulesQueueThread(new Runnable() {
       @Override
       public void run() {
-        FacesDetectedEvent event = FacesDetectedEvent.obtain(view.getId(), data);
+        FacesDetectedEvent event = FacesDetectedEvent.obtain(view.getId(), data, compressedImage);
         reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
       }
      });
