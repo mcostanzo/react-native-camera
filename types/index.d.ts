@@ -169,10 +169,14 @@ export interface GoogleVisionBarcodesDetectedEvent {
 export interface FacesDetectedEvent {
   type: string;
   faces: Face[];
-  /**
-   * Raw image bytes in JPEG format (quality 100) as Base64-encoded string, only provided if `detectedImageInEvent=true`.
-   */
-  image?: string;
+  image?: FacesDetectedImage;
+}
+
+export interface FacesDetectedImage {
+  width: number;
+  height: number;
+  orientation: number;
+  base64: string;
 }
 
 export interface RNCameraProps {

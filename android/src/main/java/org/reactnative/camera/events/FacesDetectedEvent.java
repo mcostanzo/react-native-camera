@@ -17,22 +17,28 @@ public class FacesDetectedEvent extends Event<FacesDetectedEvent> {
 
   private WritableArray mData;
   private byte[] mCompressedImage;
+  private int mWidth;
+  private int mHeight;
+  private int mOrientation;
 
   private FacesDetectedEvent() {}
 
-  public static FacesDetectedEvent obtain(int viewTag, WritableArray data, byte[] compressedImage) {
+  public static FacesDetectedEvent obtain(int viewTag, WritableArray data, byte[] compressedImage, int width, int height, int orientation) {
     FacesDetectedEvent event = EVENTS_POOL.acquire();
     if (event == null) {
       event = new FacesDetectedEvent();
     }
-    event.init(viewTag, data, compressedImage);
+    event.init(viewTag, data, compressedImage, width, height, orientation);
     return event;
   }
 
-  private void init(int viewTag, WritableArray data, byte[] compressedImage) {
+  private void init(int viewTag, WritableArray data, byte[] compressedImage, int width, int height, int orientation) {
     super.init(viewTag);
     mData = data;
     mCompressedImage = compressedImage;
+    mWidth = width;
+    mHeight = height;
+    mOrientation = orientation;
   }
 
   /**
@@ -65,7 +71,13 @@ public class FacesDetectedEvent extends Event<FacesDetectedEvent> {
     event.putArray("faces", mData);
     event.putInt("target", getViewTag());
     if (mCompressedImage != null) {
-      event.putString("image", Base64.encodeToString(mCompressedImage, Base64.NO_WRAP));
+      WritableMap imageMap = Arguments.createMap();
+      imageMap.putInt("width", mWidth);
+      imageMap.putInt("height", mHeight);
+      imageMap.putInt("orientation", mOrientation);
+      imageMap.putString("base64", Base64.encodeToString(mCompressedImage, Base64.NO_WRAP));
+
+      event.putMap("image", imageMap);
     }
 
     return event;

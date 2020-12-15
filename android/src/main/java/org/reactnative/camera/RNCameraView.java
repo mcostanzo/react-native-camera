@@ -486,7 +486,7 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
     setScanning(mShouldDetectFaces || mShouldGoogleDetectBarcodes || mShouldScanBarCodes || mShouldRecognizeText);
   }
 
-  public void onFacesDetected(WritableArray data, int width, int height, byte[] imageData) {
+  public void onFacesDetected(WritableArray data, byte[] imageData, int width, int height, int orientation) {
     if (!mShouldDetectFaces) {
       return;
     }
@@ -501,7 +501,7 @@ public class RNCameraView extends CameraView implements LifecycleEventListener, 
       throw new RuntimeException(String.format("Error decoding imageData from NV21 format (%d bytes)", imageData.length), e);
     }
 
-    RNCameraViewHelper.emitFacesDetectedEvent(this, data, compressedImage);
+    RNCameraViewHelper.emitFacesDetectedEvent(this, data, compressedImage, width, height, orientation);
   }
 
   public void onFaceDetectionError(RNFaceDetector faceDetector) {

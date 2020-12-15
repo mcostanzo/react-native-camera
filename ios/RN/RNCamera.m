@@ -2209,7 +2209,14 @@ BOOL _sessionInterrupted = NO;
             _finishedDetectingFace = false;
             self.startFace = [NSDate date];
             [self.faceDetector findFacesInFrame:image scaleX:scaleX scaleY:scaleY completed:^(NSArray * faces) {
-                NSDictionary *eventFace = @{@"type" : @"face", @"faces" : faces, @"image" : [RNImageUtils convertToBase64String:image imageQuality:1 ]};
+                NSMutableDictionary *imageResponse = [[NSMutableDictionary alloc] init];
+
+                imageResponse[@"width"] = @(image.size.width);
+                imageResponse[@"height"] = @(image.size.height);
+                imageResponse[@"orientation"] = @(image.imageOrientation);
+                imageResponse[@"base64"] = [RNImageUtils convertToBase64String:image imageQuality:1 ];
+
+                NSDictionary *eventFace = @{@"type" : @"face", @"faces" : faces, @"image" : imageResponse};
                 [self onFacesDetected:eventFace];
                 self.finishedDetectingFace = true;
             }];
